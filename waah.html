@@ -108,13 +108,14 @@
 
     <div id="timeOptions">
         <h2>Nice choice! What time should we call?</h2>
-        <button onclick="finalMessage()">Morning</button>
-        <button onclick="finalMessage()">Afternoon</button>
-        <button onclick="finalMessage()">Evening</button>
+        <button onclick="chooseTime('Morning')">Morning</button>
+        <button onclick="chooseTime('Afternoon')">Afternoon</button>
+        <button onclick="chooseTime('Evening')">Evening</button>
     </div>
 
     <div id="finalMessage">
         <h2>YIPPIE YAAAAY I CANT WAIT FOR OUR CUTESY DATE :3</h2>
+        <p id="summary"></p>
         <button onclick="triggerConfetti()">Can't wait!! :3</button>
     </div>
 
@@ -124,6 +125,8 @@
     <!-- Main Script for Actions -->
     <script>
         let noClickCount = 0;
+        let dateChoice = '';
+        let timeChoice = '';
 
         function unlockSite() {
             const name = document.getElementById("nameInput").value;
@@ -164,14 +167,24 @@
         }
 
         function chooseOption(option) {
+            dateChoice = option;
             alert("You chose: " + option);
             document.getElementById("dateOptions").style.display = "none";
             document.getElementById("timeOptions").style.display = "block";
         }
 
+        function chooseTime(time) {
+            timeChoice = time;
+            finalMessage();
+        }
+
         function finalMessage() {
             document.getElementById("timeOptions").style.display = "none";
             document.getElementById("finalMessage").style.display = "block";
+
+            // Display summary of choices
+            const summaryText = `You chose a date type of: ${dateChoice} and prefer to call in the ${timeChoice}. Can't wait! :3`;
+            document.getElementById("summary").textContent = summaryText;
         }
 
         // Confetti trigger function
@@ -194,6 +207,7 @@
             script.onload = () => console.log('Confetti script loaded!');
             document.head.appendChild(script);
         })();
+
     </script>
 </body>
 </html>
