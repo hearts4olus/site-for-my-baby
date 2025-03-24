@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Date Invitation</title>
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(to right, #a18cd1, #fbc2eb);
+        color: #333;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    h1, h2 {
+        font-weight: bold;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #8a2be2;
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        color: #6a0dad;
+    }
+
+    #nameInput {
+        padding: 10px;
+        font-size: 1rem;
+        border: 2px solid #8a2be2;
+        border-radius: 25px;
+        outline: none;
+        width: 60%;
+        max-width: 300px;
+    }
+
+    button {
+        background-color: #8a2be2;
+        color: #fff;
+        border: none;
+        border-radius: 25px;
+        padding: 10px 30px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    button:hover {
+        background-color: #9370db;
+        transform: scale(1.05);
+    }
+
+    button:active {
+        transform: scale(1);
+        box-shadow: none;
+    }
+
+    #unlockArea, #dateOptions, #timeOptions, #finalMessage {
+        display: none;
+    }
+
+    #finalMessage {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        padding: 20px;
+        margin-top: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        width: 80%;
+        max-width: 500px;
+    }
+
+    p {
+        font-size: 1.2rem;
+        margin-top: 15px;
+    }
+</style>
+</head>
+<body>
+    <h1>Who are you?</h1>
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <button onclick="unlockSite()">Submit</button>
+
+    <div id="unlockArea">
+        <h2>Omg its u!! Haii!! Would you like to go out on a date?</h2>
+        <button id="yesButton" onclick="showDateOptions()">Yes</button>
+        <button id="noButton" onclick="resizeButtons()">No</button>
+    </div>
+
+    <div id="dateOptions">
+        <h2>Awesome! What type of date do you prefer?</h2>
+        <button onclick="chooseOption('Yapp yapp')">Yapp yapp</button>
+        <button onclick="chooseOption('me streaming u something!')">Me streaming u something!</button>
+        <button onclick="chooseOption('playing something together')">Playing something together</button>
+        <button onclick="chooseOption('honk mimimimi')">Honk mimimimi</button>
+    </div>
+
+    <div id="timeOptions">
+        <h2>Nice choice! What time should we call?</h2>
+        <button onclick="finalMessage()">Morning</button>
+        <button onclick="finalMessage()">Afternoon</button>
+        <button onclick="finalMessage()">Evening</button>
+    </div>
+
+    <div id="finalMessage">
+        <h2>YIPPIE YAAAAY I CANT WAIT FOR OUR CUTESY DATE :3</h2>
+        <button onclick="triggerConfetti()">Can't wait!! :3</button>
+    </div>
+
+    <!-- Confetti Canvas (Added to Original Code) -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- Main Script for Actions -->
+    <script>
+        let noClickCount = 0;
+
+        function unlockSite() {
+            const name = document.getElementById("nameInput").value;
+            if (name === "Oliwier") {
+                document.getElementById("unlockArea").style.display = "block";
+            } else {
+                alert("Sorry, you're not him!");
+            }
+        }
+
+        function showDateOptions() {
+            document.getElementById("unlockArea").style.display = "none";
+            document.getElementById("dateOptions").style.display = "block";
+        }
+
+        function resizeButtons() {
+            noClickCount++;
+            const yesButton = document.getElementById("yesButton");
+            const noButton = document.getElementById("noButton");
+
+            if (noClickCount === 1) {
+                yesButton.style.transform = "scale(1.2)";
+                noButton.style.transform = "scale(0.8)";
+                yesButton.textContent = "Are you sure?";
+            } else if (noClickCount === 2) {
+                yesButton.style.transform = "scale(1.5)";
+                noButton.style.transform = "scale(0.6)";
+                yesButton.textContent = "Really really sure?";
+            } else if (noClickCount === 3) {
+                yesButton.style.transform = "scale(1.8)";
+                noButton.style.transform = "scale(0.4)";
+                yesButton.textContent = "Positive?";
+            } else if (noClickCount === 4) {
+                noButton.style.display = "none";
+                yesButton.style.transform = "scale(2)";
+                yesButton.textContent = "Soooo???";
+            }
+        }
+
+        function chooseOption(option) {
+            alert("You chose: " + option);
+            document.getElementById("dateOptions").style.display = "none";
+            document.getElementById("timeOptions").style.display = "block";
+        }
+
+        function finalMessage() {
+            document.getElementById("timeOptions").style.display = "none";
+            document.getElementById("finalMessage").style.display = "block";
+        }
+
+        // Confetti trigger function
+        function triggerConfetti() {
+            const confetti = window.confetti;
+            if (confetti) {
+                confetti({
+                    particleCount: 200,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        // Confetti Initialization Script
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js';
+            script.async = true;
+            script.onload = () => console.log('Confetti script loaded!');
+            document.head.appendChild(script);
+        })();
+    </script>
+</body>
+</html>
